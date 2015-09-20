@@ -9,9 +9,9 @@
 	<div>
 		<?php 
 			$is_auth = is_auth();
-			foreach($messages as $id): ?>
+			foreach($fullmessages as $id): ?>
 				<div>
-					<strong><?=$id['name']?></strong><br><br>
+					Статья: "<strong><?=$id['name']?></strong>"  Автор: <?=$id['login']?><br><br>
 					<?="<a href=c/post.php?id={$id['id_new']}>Просмотр</a>";
 					if($is_auth){
 						echo "<a href=c/edit.php?id={$id['id_new']}>Редактирование</a>";

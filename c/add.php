@@ -19,15 +19,17 @@
 	if(count($_POST) > 0){
 		$title = trim($_POST['title']);
 		$content = trim($_POST['content']);
+		$id_user = $_SESSION['id_user'];
+		var_dump($id_user);
 		
 		if(new_exists($link, $title)){
 			$message = "Такой файл уже есть, включите фантазию :)";
 		}
 		elseif($title == ''){
-			$message = "Незаполнено название статьи, а надо бы :)";
+			$message = "Незаполнено название статьи :)";
 		}
 		elseif($content == ''){
-			$message = "Незаполнено поле контент, а надо бы :)";
+			$message = "Незаполнено поле контент :)";
 		}
 
 		elseif(mb_strlen($content) > 1000){
@@ -37,11 +39,11 @@
 			$check = can_upload($_FILES['file']);
 		
 			if($check === true){
-				add_new($link, $title, $content);
+				add_new($link, $title, $content, $id_user);
 				// загружаем изображение на сервер
 				echo 'Yes! Картинка успешно добавлена!';
 				make_upload($_FILES['file'], $link, $title);
-				echo "<meta http-equiv='refresh' content='1;url=../index.php'>";
+				echo "<meta http-equiv='refresh' content='2;url=../index.php'>";
 				exit();
 			}
 			else{

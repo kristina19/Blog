@@ -13,7 +13,7 @@
 		<input type="text" name="password"><br>
 		<input type="checkbox" name="remember" checked>Запомнить меня
 		<input type="submit" value="Войти">
-		<p><?php echo $msg; ?></p>
+		<p><?php echo $message; ?></p>
 	</form>
 </body>
 </html>	

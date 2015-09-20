@@ -46,19 +46,18 @@
 	return $messages;
 	}
 	
-	
 	function get_content($link, $id){
 		$res = mysqli_query($link, "SELECT content FROM news WHERE id_new='$id'");
 		$content = mysqli_fetch_assoc($res);
 	return $content;
 	}
 	
-	function add_new($link, $name, $content){	
+	function add_new($link, $name, $content, $id_user){	
 		$name = trim($name);
 		$content = trim($content);
 		if($name == '' || $content == '')
 			return false;
-		mysqli_query($link, "INSERT INTO news (name, content) VALUES ('$name', '$content')");
+		mysqli_query($link, "INSERT INTO news (id_user, name, content) VALUES ('$id_user', '$name', '$content')");
 		if (mysqli_connect_errno()){
 			echo ("Не удалось подключиться: " . mysqli_connect_error());
 			exit();
@@ -100,4 +99,26 @@
 			exit();
 		}
 	return true;
+	}
+	
+	function check_auth($link, $login, $password){
+		$res = mysqli_query($link, "SELECT id_user FROM `users` WHERE `login`= '$login' AND `password` = '$password'");
+		$id_user = mysqli_fetch_assoc($res);
+		$id_user = $id_user['id_user'];
+		if (empty($id_user))
+			return false;
+		if (mysqli_connect_errno()){
+			echo ("Не удалось подключиться: " . mysqli_connect_error());
+			exit();
+		}
+	return $id_user;
+	}
+	
+	function get_fullmessages($link){	
+		$res = mysqli_query($link, "SELECT * FROM `news` LEFT JOIN `users` using(id_user)");
+		$fullmessages = array();
+		while($row = mysqli_fetch_assoc($res)){
+			$fullmessages[] = $row;	
+		}
+	return $fullmessages;
 	}

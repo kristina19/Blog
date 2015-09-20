@@ -14,5 +14,6 @@
 		exit();
 	}
 	$messages = get_messages($link);
+	$fullmessages = get_fullmessages($link);
 	
 	include 'v/v_index.php';
