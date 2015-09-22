@@ -52,7 +52,7 @@
 			exit();	
 		} 
 		else{
-			add_new($link, $title, $content);
+			add_new($link, $title, $content, $id_user);
 			header('Location: ../index.php');
 			exit();	
 		}		

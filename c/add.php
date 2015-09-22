@@ -20,7 +20,7 @@
 		$title = trim($_POST['title']);
 		$content = trim($_POST['content']);
 		$id_user = $_SESSION['id_user'];
-		var_dump($id_user);
+		//var_dump($id_user);
 		
 		if(new_exists($link, $title)){
 			$message = "Такой файл уже есть, включите фантазию :)";

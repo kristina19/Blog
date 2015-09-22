@@ -58,7 +58,7 @@
 		if($name == '' || $content == '')
 			return false;
 		mysqli_query($link, "INSERT INTO news (id_user, name, content) VALUES ('$id_user', '$name', '$content')");
-		if (mysqli_connect_errno()){
+		if(mysqli_connect_errno()){
 			echo ("Не удалось подключиться: " . mysqli_connect_error());
 			exit();
 		}
@@ -71,7 +71,7 @@
 		if($name == '' || $content == '')
 			return false;
 		mysqli_query($link, "UPDATE `news` SET `content` = '$content', `name` = '$name' WHERE `id_new` = '$id'");
-		if (mysqli_connect_errno()){
+		if(mysqli_connect_errno()){
 			echo ("Не удалось подключиться: " . mysqli_connect_error());
 			exit();
 		}
@@ -82,7 +82,7 @@
 		if($id == '')
 			return false;
 		mysqli_query($link, "DELETE FROM `news` WHERE id_new='$id'");
-		if (mysqli_connect_errno()){
+		if(mysqli_connect_errno()){
 			echo ("Не удалось подключиться: " . mysqli_connect_error());
 			exit();
 		}
@@ -92,9 +92,9 @@
 	function new_exists($link, $id){
 		$res = mysqli_query($link, "SELECT * FROM news WHERE id_new='$id'");
 		$new = mysqli_fetch_assoc($res);
-		if (empty($new))
+		if(empty($new))
 			return false;
-		if (mysqli_connect_errno()){
+		if(mysqli_connect_errno()){
 			echo ("Не удалось подключиться: " . mysqli_connect_error());
 			exit();
 		}
@@ -102,12 +102,12 @@
 	}
 	
 	function check_auth($link, $login, $password){
-		$res = mysqli_query($link, "SELECT id_user FROM `users` WHERE `login`= '$login' AND `password` = '$password'");
+		$res = mysqli_query($link, "SELECT id_user FROM `users` WHERE `login` = '$login' AND `password` = '$password'");
 		$id_user = mysqli_fetch_assoc($res);
 		$id_user = $id_user['id_user'];
-		if (empty($id_user))
+		if(empty($id_user))
 			return false;
-		if (mysqli_connect_errno()){
+		if(mysqli_connect_errno()){
 			echo ("Не удалось подключиться: " . mysqli_connect_error());
 			exit();
 		}
@@ -121,4 +121,26 @@
 			$fullmessages[] = $row;	
 		}
 	return $fullmessages;
+	}
+	
+	function is_admin($link){
+		$is_admin = false;
+		$id_user = $_SESSION['id_user'];
+ 		if(empty($id_user))
+			return false; 
+		$res = mysqli_query($link, "SELECT login FROM `users` WHERE `id_user` = '$id_user'");
+		$login = mysqli_fetch_assoc($res);
+		$login = $login['login'];
+		if($login == 'admin')
+			$is_admin = true;
+	return $is_admin;
+	}
+	
+	function get_messagesById($link, $id_user){	
+		$res = mysqli_query($link, "SELECT * FROM `news` WHERE id_user = '$id_user'");
+		$messagesById = array();
+		while($row = mysqli_fetch_assoc($res)){
+			$messagesById[] = $row;	
+		}
+	return $messagesById;
 	}

@@ -9,13 +9,22 @@
 	<div>
 		<?php 
 			$is_auth = is_auth();
+			$is_admin = is_admin($link);
 			foreach($fullmessages as $id): ?>
 				<div>
 					Статья: "<strong><?=$id['name']?></strong>"  Автор: <?=$id['login']?><br><br>
 					<?="<a href=c/post.php?id={$id['id_new']}>Просмотр</a>";
 					if($is_auth){
-						echo "<a href=c/edit.php?id={$id['id_new']}>Редактирование</a>";
-						echo "<a href=c/edit.php?id={$id['id_new']}>Удалить</a>";
+						if($is_admin){
+							echo "<a href=c/edit.php?id={$id['id_new']}>Редактирование</a>";
+							echo "<a href=c/edit.php?id={$id['id_new']}>Удалить</a>";
+						}
+						else for($i=0;$i<1;$i++){
+								if($messagesById[$i]['id_user']==$id['id_user']){
+									echo "<a href=c/edit.php?id={$id['id_new']}>Редактирование</a>";
+									echo "<a href=c/edit.php?id={$id['id_new']}>Удалить</a>";
+								}
+						}
 					}
 					echo '<hr><br>'; ?>
 				</div>
